@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:todo3/models/task_model.dart';
+import 'package:todo3/tabs/task/function_firebase.dart';
+import 'package:todo3/tabs/task/task_provider.dart';
 import 'package:todo3/widgets/custom_elevated_bottom.dart';
 import 'package:todo3/widgets/custom_text_form_field.dart';
 
@@ -95,5 +99,20 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     );
   }
 
-  void addTask() {}
+  void addTask() {
+    FunctionFirebase.addTasksToFirebase(
+      TaskModel(
+        title: titleController.text,
+        describtion: describtionController.text,
+        date: selectDate,
+      ),
+    ).timeout(Duration(microseconds: 500), onTimeout: () {
+      Navigator.of(context).pop();
+      Provider.of<TaskProvider>(context, listen: false).getTask();
+      print('Task added');
+    }).catchError((error) {
+      print(error);
+      print('Error');
+    });
+  }
 }
