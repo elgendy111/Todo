@@ -32,4 +32,9 @@ class FunctionFirebase {
     CollectionReference<TaskModel> tasksCollection = getTasksCollection();
     return tasksCollection.doc(task.id).update(task.toJson());
   }
+
+  static Future<void> changeTaskInFirebase(TaskModel task) async {
+    CollectionReference<TaskModel> tasksCollection = getTasksCollection();
+    return tasksCollection.doc(task.id).set(task);
+  }
 }

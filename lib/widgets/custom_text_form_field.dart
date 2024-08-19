@@ -19,6 +19,7 @@ class CustomTextFormField extends StatelessWidget {
       ),
       maxLines: maxLines,
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

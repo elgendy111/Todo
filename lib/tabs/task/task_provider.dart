@@ -5,6 +5,7 @@ import 'package:todo3/tabs/task/function_firebase.dart';
 
 class TaskProvider with ChangeNotifier {
   List<TaskModel> tasks = [];
+  TaskModel? currentTask;
   DateTime selectedDate = DateTime.now();
 
   Future<void> getTask() async {
@@ -21,5 +22,12 @@ class TaskProvider with ChangeNotifier {
   void changeDate(DateTime date) {
     selectedDate = date;
     notifyListeners();
+  }
+
+  Future<void> updateCurrentTask(TaskModel updatedTask) async {
+    if (currentTask != null) {
+      await FunctionFirebase.updateTaskInFirebase(updatedTask);
+      getTask();
+    }
   }
 }
