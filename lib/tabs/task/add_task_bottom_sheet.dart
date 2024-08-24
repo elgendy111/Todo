@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:todo3/app_theme.dart';
 import 'package:todo3/models/task_model.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
@@ -109,10 +111,23 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     ).timeout(Duration(microseconds: 500), onTimeout: () {
       Navigator.of(context).pop();
       Provider.of<TaskProvider>(context, listen: false).getTask();
-      print('Task added');
+      Fluttertoast.showToast(
+          msg: "This is Center Short Toast",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: AppTheme.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }).catchError((error) {
-      print(error);
-      print('Error');
+      Fluttertoast.showToast(
+          msg: "This is Center Short Toast",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: AppTheme.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 }
