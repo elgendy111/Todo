@@ -9,8 +9,8 @@ import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
 
 class TaskItem extends StatefulWidget {
-  TaskModel task;
-  TaskItem(this.task);
+  final TaskModel task;
+  const TaskItem(this.task, {super.key});
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -40,7 +40,7 @@ class _TaskItemState extends State<TaskItem> {
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Slidable(
         key: const ValueKey(0),
         startActionPane: ActionPane(
@@ -49,7 +49,7 @@ class _TaskItemState extends State<TaskItem> {
             SlidableAction(
               onPressed: (context) {
                 FunctionFirebase.deleteTaskFromFirebase(widget.task.id)
-                    .timeout(Duration(microseconds: 500), onTimeout: () {
+                    .timeout(const Duration(microseconds: 500), onTimeout: () {
                   Provider.of<TaskProvider>(context, listen: false).getTask();
                 }).catchError((error) {
                   Fluttertoast.showToast(
@@ -78,7 +78,7 @@ class _TaskItemState extends State<TaskItem> {
             );
           },
           child: Container(
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: AppTheme.white,
                 borderRadius: BorderRadius.circular(15),
@@ -89,7 +89,7 @@ class _TaskItemState extends State<TaskItem> {
                     height: 62,
                     width: 4,
                     color: isDone ? AppTheme.green : AppTheme.primary,
-                    margin: EdgeInsetsDirectional.only(end: 10),
+                    margin: const EdgeInsetsDirectional.only(end: 10),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +107,7 @@ class _TaskItemState extends State<TaskItem> {
                       ),
                     ],
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GestureDetector(
                     onTap: toggleTaskStatus,
                     child: Container(

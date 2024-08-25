@@ -11,27 +11,33 @@ class AppTheme {
   static const Color black = Color(0xff000000);
 
   static ThemeData lightTheme = ThemeData(
-    primaryColor: primary,
-    scaffoldBackgroundColor: backgriundLight,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: white,
-        selectedItemColor: primary,
-        unselectedItemColor: grey,
-        showSelectedLabels: false,
-        showUnselectedLabels: false),
-    floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: primary,
-      foregroundColor: white,
-      shape: CircleBorder(
-        side: BorderSide(color: white, width: 4),
+      appBarTheme: const AppBarTheme(
+        centerTitle: true,
+        color: Colors.transparent,
       ),
-    ),
-    textTheme: TextTheme(
-        titleMedium:
-            TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: black),
-        titleSmall:
-            TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: black)),
-  );
+      primaryColor: primary,
+      scaffoldBackgroundColor: backgriundLight,
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: white,
+          selectedItemColor: primary,
+          unselectedItemColor: grey,
+          showSelectedLabels: false,
+          showUnselectedLabels: false),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: primary,
+        foregroundColor: white,
+        shape: CircleBorder(
+          side: BorderSide(color: white, width: 4),
+        ),
+      ),
+      textTheme: const TextTheme(
+          titleMedium: TextStyle(
+              fontSize: 18, fontWeight: FontWeight.bold, color: black),
+          titleSmall: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w400, color: black)),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: primary),
+      ));
   static ThemeData darkTheme = ThemeData();
 }

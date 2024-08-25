@@ -11,6 +11,8 @@ import 'package:todo3/widgets/custom_text_form_field.dart';
 class EditTask extends StatefulWidget {
   static const String routeName = 'edit';
 
+  const EditTask({super.key});
+
   @override
   State<EditTask> createState() => _EditTaskState();
 }
@@ -39,7 +41,7 @@ class _EditTaskState extends State<EditTask> {
         key: formState,
         child: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(15),
+            padding: const EdgeInsets.all(15),
             margin: EdgeInsets.symmetric(
               vertical: MediaQuery.of(context).size.height * 0.17,
               horizontal: MediaQuery.of(context).size.width * 0.07,
@@ -52,7 +54,7 @@ class _EditTaskState extends State<EditTask> {
                   'Edit Task',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 32,
                 ),
                 CustomTextFormField(
@@ -65,7 +67,7 @@ class _EditTaskState extends State<EditTask> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 CustomTextFormField(
@@ -73,7 +75,7 @@ class _EditTaskState extends State<EditTask> {
                   hintText: 'Task details',
                   maxLines: 3,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 18,
                 ),
                 Text(
@@ -83,7 +85,7 @@ class _EditTaskState extends State<EditTask> {
                       .bodyMedium
                       ?.copyWith(fontWeight: FontWeight.w500),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 InkWell(
@@ -92,7 +94,7 @@ class _EditTaskState extends State<EditTask> {
                         context: context,
                         initialDate: selectDate,
                         firstDate: DateTime.now(),
-                        lastDate: DateTime.now().add(Duration(days: 365)),
+                        lastDate: DateTime.now().add(const Duration(days: 365)),
                         initialEntryMode: DatePickerEntryMode.calendarOnly);
                     if (dateTime != null) {
                       selectDate = dateTime;
@@ -133,7 +135,7 @@ class _EditTaskState extends State<EditTask> {
       task.date = selectDate;
 
       FunctionFirebase.updateTaskInFirebase(task)
-          .timeout(Duration(microseconds: 500), onTimeout: () {
+          .timeout(const Duration(microseconds: 500), onTimeout: () {
         taskProvider.getTask();
         print('Task updated with timeout');
       }).then((_) {

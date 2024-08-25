@@ -5,7 +5,9 @@ import 'package:todo3/tabs/task/add_task_bottom_sheet.dart';
 import 'package:todo3/tabs/task/task_tab.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String routeName = '/';
+  static const String routeName = '/home';
+
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,15 +16,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
   List<Widget> tabs = [
-    TaskTab(),
-    SettingsTab(),
+    const TaskTab(),
+    const SettingsTab(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: tabs[currentIndex],
       bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 10,
         padding: EdgeInsets.zero,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -35,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               currentIndex = index;
             });
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 icon: ImageIcon(
                   AssetImage('assets/images/icon_list.png'),
@@ -52,9 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
-              context: context, builder: (_) => AddTaskBottomSheet());
+              context: context, builder: (_) => const AddTaskBottomSheet());
         },
-        child: Icon(
+        child: const Icon(
           Icons.add,
           size: 32,
         ),

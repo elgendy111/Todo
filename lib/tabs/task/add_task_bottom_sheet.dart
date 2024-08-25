@@ -10,6 +10,8 @@ import 'package:todo3/widgets/custom_elevated_bottom.dart';
 import 'package:todo3/widgets/custom_text_form_field.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
+  const AddTaskBottomSheet({super.key});
+
   @override
   State<AddTaskBottomSheet> createState() => _AddTaskBottomSheetState();
 }
@@ -25,7 +27,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     ThemeData theme = Theme.of(context);
     return Container(
       height: MediaQuery.of(context).size.height * 0.55,
-      padding: EdgeInsets.all(20),
+      padding: const EdgeInsets.all(20),
       child: Form(
         key: formState,
         child: Column(
@@ -34,7 +36,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               'Add New Task',
               style: theme.textTheme.titleMedium,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomTextFormField(
@@ -47,7 +49,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 return null;
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             CustomTextFormField(
@@ -55,7 +57,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               controller: describtionController,
               maxLines: 5,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
@@ -63,7 +65,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               style: theme.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.w500),
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             InkWell(
@@ -72,7 +74,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                     context: context,
                     initialDate: selectDate,
                     firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(Duration(days: 365)),
+                    lastDate: DateTime.now().add(const Duration(days: 365)),
                     initialEntryMode: DatePickerEntryMode.calendarOnly);
                 if (dateTime != null) {
                   selectDate = dateTime;
@@ -84,7 +86,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 style: theme.textTheme.titleMedium,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 32,
             ),
             CustomElevatedBottom(
@@ -108,7 +110,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         describtion: describtionController.text,
         date: selectDate,
       ),
-    ).timeout(Duration(microseconds: 500), onTimeout: () {
+    ).timeout(const Duration(microseconds: 500), onTimeout: () {
       Navigator.of(context).pop();
       Provider.of<TaskProvider>(context, listen: false).getTask();
       Fluttertoast.showToast(

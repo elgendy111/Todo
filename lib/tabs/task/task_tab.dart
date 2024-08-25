@@ -2,11 +2,12 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
-import 'package:todo3/models/task_model.dart';
 import 'package:todo3/tabs/task/task_item.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
 
 class TaskTab extends StatelessWidget {
+  const TaskTab({super.key});
+
   @override
   Widget build(BuildContext context) {
     TaskProvider taskProvider = Provider.of<TaskProvider>(context);
@@ -34,9 +35,9 @@ class TaskTab extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: ScreenHight * 0.1),
               child: EasyInfiniteDateTimeLine(
-                firstDate: DateTime.now().subtract(Duration(days: 365)),
+                firstDate: DateTime.now().subtract(const Duration(days: 365)),
                 focusDate: taskProvider.selectedDate,
-                lastDate: DateTime.now().add(Duration(days: 365)),
+                lastDate: DateTime.now().add(const Duration(days: 365)),
                 showTimelineHeader: false,
                 onDateChange: (selectedDate) {
                   taskProvider.changeDate(selectedDate);
@@ -52,12 +53,12 @@ class TaskTab extends StatelessWidget {
                       color: AppTheme.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    dayNumStyle: TextStyle(
+                    dayNumStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.primary,
                     ),
-                    dayStrStyle: TextStyle(
+                    dayStrStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.primary,
@@ -68,12 +69,12 @@ class TaskTab extends StatelessWidget {
                       color: AppTheme.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    dayNumStyle: TextStyle(
+                    dayNumStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.black,
                     ),
-                    dayStrStyle: TextStyle(
+                    dayStrStyle: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.black,
@@ -86,7 +87,7 @@ class TaskTab extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
-            padding: EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 20),
             itemBuilder: (_, index) => TaskItem(taskProvider.tasks[index]),
             itemCount: taskProvider.tasks.length,
           ),

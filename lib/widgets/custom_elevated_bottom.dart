@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:todo3/app_theme.dart';
 
 class CustomElevatedBottom extends StatelessWidget {
-  String label;
-  VoidCallback onPressed;
-  CustomElevatedBottom({required this.label, required this.onPressed});
+  final String label;
+  final VoidCallback onPressed;
+  const CustomElevatedBottom(
+      {super.key, required this.label, required this.onPressed});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
