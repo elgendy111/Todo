@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
+import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/models/task_model.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
@@ -134,13 +135,16 @@ class _EditTaskState extends State<EditTask> {
       task.describtion = describtionController.text;
       task.date = selectDate;
 
-      FunctionFirebase.updateTaskInFirebase(task)
-          .timeout(const Duration(microseconds: 500), onTimeout: () {
-        taskProvider.getTask();
+      FunctionFirebase.updateTaskInFirebase(task,
+              Provider.of<UserProvider>(context, listen: false).currentUser!.id)
+          .then((_) {
+        taskProvider.getTask(
+            Provider.of<UserProvider>(context, listen: false).currentUser!.id);
         print('Task updated with timeout');
       }).then((_) {
         Navigator.of(context).pop();
-        taskProvider.getTask();
+        taskProvider.getTask(
+            Provider.of<UserProvider>(context, listen: false).currentUser!.id);
         print('Task updated successfully');
       }).catchError((error) {
         print('Error');

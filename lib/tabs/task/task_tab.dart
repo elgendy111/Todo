@@ -2,16 +2,28 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
+import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/tabs/task/task_item.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
 
-class TaskTab extends StatelessWidget {
+class TaskTab extends StatefulWidget {
   const TaskTab({super.key});
 
+  @override
+  State<TaskTab> createState() => _TaskTabState();
+}
+
+class _TaskTabState extends State<TaskTab> {
+  bool shouldGetTask = true;
   @override
   Widget build(BuildContext context) {
     TaskProvider taskProvider = Provider.of<TaskProvider>(context);
     double ScreenHight = MediaQuery.of(context).size.height;
+    if (shouldGetTask) {
+      final userId = Provider.of<UserProvider>(context).currentUser!.id;
+      taskProvider.getTask(userId);
+      shouldGetTask = false;
+    }
     return Column(
       children: [
         Stack(
@@ -41,7 +53,10 @@ class TaskTab extends StatelessWidget {
                 showTimelineHeader: false,
                 onDateChange: (selectedDate) {
                   taskProvider.changeDate(selectedDate);
-                  taskProvider.getTask();
+                  taskProvider.getTask(
+                      Provider.of<UserProvider>(context, listen: false)
+                          .currentUser!
+                          .id);
                 },
                 activeColor: AppTheme.white,
                 dayProps: EasyDayProps(

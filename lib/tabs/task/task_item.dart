@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
+import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/models/task_model.dart';
 import 'package:todo3/tabs/task/edit_task.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
@@ -25,20 +26,22 @@ class _TaskItemState extends State<TaskItem> {
     isDone = widget.task.isDone;
   }
 
-  void toggleTaskStatus() async {
+  void toggleTaskStatus(String userId) async {
     setState(() {
       isDone = !isDone;
     });
 
     widget.task.isDone = isDone;
-    await FunctionFirebase.updateTaskInFirebase(widget.task);
+    await FunctionFirebase.updateTaskInFirebase(widget.task, userId);
 
-    Provider.of<TaskProvider>(context, listen: false).getTask();
+    Provider.of<TaskProvider>(context, listen: false).getTask(userId);
   }
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).currentUser!.id;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Slidable(
@@ -48,9 +51,10 @@ class _TaskItemState extends State<TaskItem> {
           children: [
             SlidableAction(
               onPressed: (context) {
-                FunctionFirebase.deleteTaskFromFirebase(widget.task.id)
-                    .timeout(const Duration(microseconds: 500), onTimeout: () {
-                  Provider.of<TaskProvider>(context, listen: false).getTask();
+                FunctionFirebase.deleteTaskFromFirebase(widget.task.id, userId)
+                    .then((_) {
+                  Provider.of<TaskProvider>(context, listen: false)
+                      .getTask(userId);
                 }).catchError((error) {
                   Fluttertoast.showToast(
                       msg: "This is Center Short Toast",
@@ -109,7 +113,7 @@ class _TaskItemState extends State<TaskItem> {
                   ),
                   const Spacer(),
                   GestureDetector(
-                    onTap: toggleTaskStatus,
+                    onTap: () => toggleTaskStatus(userId),
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),

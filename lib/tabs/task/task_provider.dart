@@ -7,8 +7,9 @@ class TaskProvider with ChangeNotifier {
   TaskModel? currentTask;
   DateTime selectedDate = DateTime.now();
 
-  Future<void> getTask() async {
-    List<TaskModel> allTasks = await FunctionFirebase.getAllTaskFromFirebase();
+  Future<void> getTask(String userId) async {
+    List<TaskModel> allTasks =
+        await FunctionFirebase.getAllTaskFromFirebase(userId);
     tasks = allTasks
         .where((task) =>
             task.date.day == selectedDate.day &&
@@ -23,10 +24,11 @@ class TaskProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateCurrentTask(TaskModel updatedTask) async {
+  Future<void> updateCurrentTask(TaskModel updatedTask, String userId) async {
     if (currentTask != null) {
-      await FunctionFirebase.updateTaskInFirebase(updatedTask);
-      getTask();
+      await FunctionFirebase.updateTaskInFirebase(updatedTask, userId);
+      getTask(userId);
+      notifyListeners();
     }
   }
 }

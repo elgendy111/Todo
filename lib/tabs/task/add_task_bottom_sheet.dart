@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
+import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/models/task_model.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
@@ -104,17 +106,20 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   }
 
   void addTask() {
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).currentUser!.id;
     FunctionFirebase.addTasksToFirebase(
       TaskModel(
         title: titleController.text,
         describtion: describtionController.text,
         date: selectDate,
       ),
-    ).timeout(const Duration(microseconds: 500), onTimeout: () {
+      userId,
+    ).then((_) {
       Navigator.of(context).pop();
-      Provider.of<TaskProvider>(context, listen: false).getTask();
+      Provider.of<TaskProvider>(context, listen: false).getTask(userId);
       Fluttertoast.showToast(
-          msg: "This is Center Short Toast",
+          msg: "Something went Error!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
@@ -123,7 +128,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           fontSize: 16.0);
     }).catchError((error) {
       Fluttertoast.showToast(
-          msg: "This is Center Short Toast",
+          msg: "Something went Error!",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 2,
