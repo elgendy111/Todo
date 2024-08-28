@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
 import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/models/task_model.dart';
+import 'package:todo3/tabs/settings/settings_provider.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
 import 'package:todo3/widgets/custom_elevated_bottom.dart';
@@ -26,80 +27,98 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     ThemeData theme = Theme.of(context);
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.55,
-      padding: const EdgeInsets.all(20),
-      child: Form(
-        key: formState,
-        child: Column(
-          children: [
-            Text(
-              'Add New Task',
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            CustomTextFormField(
-              hintText: 'Enter Title Task',
-              controller: titleController,
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'title can not be empty';
-                }
-                return null;
-              },
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            CustomTextFormField(
-              hintText: 'Enter Describtion Task',
-              controller: describtionController,
-              maxLines: 5,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              'Select Date',
-              style: theme.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            InkWell(
-              onTap: () async {
-                DateTime? dateTime = await showDatePicker(
-                    context: context,
-                    initialDate: selectDate,
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 365)),
-                    initialEntryMode: DatePickerEntryMode.calendarOnly);
-                if (dateTime != null) {
-                  selectDate = dateTime;
-                  setState(() {});
-                }
-              },
-              child: Text(
-                dateFormat.format(selectDate),
-                style: theme.textTheme.titleMedium,
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Container(
+        decoration: BoxDecoration(
+          color:
+              settingsProvider.isDark ? AppTheme.darkGrayish : AppTheme.white,
+        ),
+        height: MediaQuery.of(context).size.height * 0.55,
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: formState,
+          child: Column(
+            children: [
+              Text(
+                'Add New Task',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color:
+                      settingsProvider.isDark ? AppTheme.white : AppTheme.black,
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            CustomElevatedBottom(
-              label: 'Add Task',
-              onPressed: () {
-                if (formState.currentState?.validate() ?? false) {
-                  addTask();
-                }
-              },
-            ),
-          ],
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                hintText: 'Enter Title Task',
+                controller: titleController,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'title can not be empty';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomTextFormField(
+                hintText: 'Enter Describtion Task',
+                controller: describtionController,
+                maxLines: 5,
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                'Select Date',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: settingsProvider.isDark
+                        ? AppTheme.white.withOpacity(0.5)
+                        : AppTheme.grey),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              InkWell(
+                onTap: () async {
+                  DateTime? dateTime = await showDatePicker(
+                      context: context,
+                      initialDate: selectDate,
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 365)),
+                      initialEntryMode: DatePickerEntryMode.calendarOnly);
+                  if (dateTime != null) {
+                    selectDate = dateTime;
+                    setState(() {});
+                  }
+                },
+                child: Text(
+                  dateFormat.format(selectDate),
+                  style: theme.textTheme.titleMedium?.copyWith(
+                      color: settingsProvider.isDark
+                          ? AppTheme.white.withOpacity(0.4)
+                          : AppTheme.grey),
+                ),
+              ),
+              const SizedBox(
+                height: 32,
+              ),
+              CustomElevatedBottom(
+                label: 'Add Task',
+                onPressed: () {
+                  if (formState.currentState?.validate() ?? false) {
+                    addTask();
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

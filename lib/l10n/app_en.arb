@@ -1,0 +1,9 @@
+{
+    "toDoList":"To DO List",
+    "lightMode":"LightMode",
+    "darkMode":"DaerkMode",
+    "language":"Language",
+    "editTask":"Edit Task",
+    "saveChanges":"Save Changes",
+    "settings":"Settings"
+}

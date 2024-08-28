@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
 import 'package:todo3/auth/user_provider.dart';
 import 'package:todo3/models/task_model.dart';
+import 'package:todo3/tabs/settings/settings_provider.dart';
 import 'package:todo3/tabs/task/edit_task.dart';
 import 'package:todo3/tabs/task/function_firebase.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
@@ -39,6 +41,7 @@ class _TaskItemState extends State<TaskItem> {
 
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     ThemeData theme = Theme.of(context);
     final userId =
         Provider.of<UserProvider>(context, listen: false).currentUser!.id;
@@ -50,14 +53,15 @@ class _TaskItemState extends State<TaskItem> {
           motion: const ScrollMotion(),
           children: [
             SlidableAction(
-              onPressed: (context) {
-                FunctionFirebase.deleteTaskFromFirebase(widget.task.id, userId)
+              onPressed: (_) async {
+                await FunctionFirebase.deleteTaskFromFirebase(
+                        widget.task.id, userId)
                     .then((_) {
                   Provider.of<TaskProvider>(context, listen: false)
                       .getTask(userId);
                 }).catchError((error) {
                   Fluttertoast.showToast(
-                      msg: "This is Center Short Toast",
+                      msg: "Something went Error",
                       toastLength: Toast.LENGTH_LONG,
                       gravity: ToastGravity.CENTER,
                       timeInSecForIosWeb: 2,
@@ -84,7 +88,9 @@ class _TaskItemState extends State<TaskItem> {
           child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppTheme.white,
+                color: settingsProvider.isDark
+                    ? AppTheme.darkGrayish
+                    : AppTheme.white,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Row(
@@ -106,7 +112,11 @@ class _TaskItemState extends State<TaskItem> {
                       Text(
                         widget.task.describtion,
                         style: theme.textTheme.titleSmall?.copyWith(
-                          color: isDone ? AppTheme.green : AppTheme.black,
+                          color: isDone
+                              ? AppTheme.green
+                              : settingsProvider.isDark
+                                  ? AppTheme.white
+                                  : AppTheme.black,
                         ),
                       ),
                     ],

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo3/app_theme.dart';
 import 'package:todo3/auth/user_provider.dart';
+import 'package:todo3/tabs/settings/settings_provider.dart';
 import 'package:todo3/tabs/task/task_item.dart';
 import 'package:todo3/tabs/task/task_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskTab extends StatefulWidget {
   const TaskTab({super.key});
@@ -17,6 +19,7 @@ class _TaskTabState extends State<TaskTab> {
   bool shouldGetTask = true;
   @override
   Widget build(BuildContext context) {
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TaskProvider taskProvider = Provider.of<TaskProvider>(context);
     double ScreenHight = MediaQuery.of(context).size.height;
     if (shouldGetTask) {
@@ -37,11 +40,12 @@ class _TaskTabState extends State<TaskTab> {
               top: 40,
               start: 20,
               child: Text(
-                'To Do List',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontSize: 22, color: AppTheme.white),
+                AppLocalizations.of(context)!.toDoList,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontSize: 22,
+                    color: settingsProvider.isDark
+                        ? AppTheme.backgriundDark
+                        : AppTheme.white),
               ),
             ),
             Padding(
@@ -65,7 +69,9 @@ class _TaskTabState extends State<TaskTab> {
                   width: 60,
                   activeDayStyle: DayStyle(
                     decoration: BoxDecoration(
-                      color: AppTheme.white,
+                      color: settingsProvider.isDark
+                          ? AppTheme.darkGrayish
+                          : AppTheme.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
                     dayNumStyle: const TextStyle(
@@ -81,18 +87,46 @@ class _TaskTabState extends State<TaskTab> {
                   ),
                   inactiveDayStyle: DayStyle(
                     decoration: BoxDecoration(
-                      color: AppTheme.white,
+                      color: settingsProvider.isDark
+                          ? AppTheme.darkGrayish
+                          : AppTheme.white,
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    dayNumStyle: const TextStyle(
+                    dayNumStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.black,
+                      color: settingsProvider.isDark
+                          ? AppTheme.white
+                          : AppTheme.black,
                     ),
-                    dayStrStyle: const TextStyle(
+                    dayStrStyle: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.black,
+                      color: settingsProvider.isDark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                    ),
+                  ),
+                  todayStyle: DayStyle(
+                    decoration: BoxDecoration(
+                      color: settingsProvider.isDark
+                          ? AppTheme.darkGrayish
+                          : AppTheme.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    dayNumStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: settingsProvider.isDark
+                          ? AppTheme.white
+                          : AppTheme.black,
+                    ),
+                    dayStrStyle: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: settingsProvider.isDark
+                          ? AppTheme.white
+                          : AppTheme.black,
                     ),
                   ),
                 ),
